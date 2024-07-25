@@ -7,6 +7,6 @@ output "vpc_id" {
   value = aws_vpc.healthcheck_vpc.id
 }
 
-output "db_subnet_ids" {
-  value = aws_subnet.healthcheck_db_subnet.*.id
-}
+# output "db_subnet_ids" {
+#   value = aws_subnet.healthcheck_db_subnet.*.id
+# }

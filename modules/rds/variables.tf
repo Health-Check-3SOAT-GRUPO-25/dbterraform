@@ -8,9 +8,9 @@ variable "vpc_id" {
   description = "The VPC ID where the RDS instance will be created."
 }
 
-variable "db_subnet_ids" {
-  description = "List of subnet IDs for the RDS instance."
-}
+# variable "db_subnet_ids" {
+#   description = "List of subnet IDs for the RDS instance."
+# }
 
 variable "db_subnet_group_name" {
   type        = string

@@ -11,5 +11,5 @@ module "rds" {
   dbPassword =  var.dbPassword
   dbUserName = var.dbUserName
   vpc_id         = module.vpc.vpc_id
-  db_subnet_ids  = module.vpc.db_subnet_ids
+  # db_subnet_ids  = module.vpc.db_subnet_ids
 }
