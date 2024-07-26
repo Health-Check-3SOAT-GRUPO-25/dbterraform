@@ -13,7 +13,7 @@ resource "aws_vpc" "healthcheck_vpc" {
 resource "aws_subnet" "healthcheck_public_subnet" {
   count                   = 2
   vpc_id                  = aws_vpc.healthcheck_vpc.id
-  cidr_block              = cidrsubnet(var.cidr_block, 4, count.index)
+  cidr_block              = cidrsubnet("10.0.128.0/20", 4, count.index)
   availability_zone       = element(data.aws_availability_zones.healthcheck_available.names, count.index)
   map_public_ip_on_launch = true
 
@@ -26,7 +26,7 @@ resource "aws_subnet" "healthcheck_public_subnet" {
 resource "aws_subnet" "healthcheck_private_subnet" {
   count                   = 2
   vpc_id                  = aws_vpc.healthcheck_vpc.id
-  cidr_block              = cidrsubnet(var.cidr_block, 4, count.index + 2)
+  cidr_block              = cidrsubnet("10.0.160.0/20", 4, count.index)
   availability_zone       = element(data.aws_availability_zones.healthcheck_available.names, count.index)
   map_public_ip_on_launch = false
 
