@@ -9,7 +9,7 @@ terraform {
   backend "s3" {
     bucket = "${TERRAFORM_BUCKET_NAME}"
     # bucket = "terraformfiaphack"
-    key    = "burgerroyale-database.tfstate"
+    key    = "healthcheck-database.tfstate"
     region = "us-east-1"
   }
 }

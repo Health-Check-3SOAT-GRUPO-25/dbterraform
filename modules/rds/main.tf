@@ -42,6 +42,9 @@ resource "aws_security_group" "healthcheck_sg_rds" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+    tags = {
+    Name = "healthcheck-sql-server-rds-sg"
+  }
 }
 
 

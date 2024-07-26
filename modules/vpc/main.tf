@@ -54,7 +54,24 @@ resource "aws_internet_gateway" "healthcheck_igw" {
   }
 }
 
-# Tabela de Roteamento para a VPC
+# Elastic IP para o NAT Gateway
+resource "aws_eip" "healthcheck_elastic_ip" {
+  tags = {
+    Name = "healthcheck-elastic-ip"
+  }
+}
+
+# NAT Gateway
+resource "aws_nat_gateway" "healthcheck_nat_gateway" {
+  subnet_id     = aws_subnet.healthcheck_public_subnet[0].id
+  allocation_id = aws_eip.healthcheck_elastic_ip.id
+
+  tags = {
+    Name = "healthcheck-nat-gateway"
+  }
+}
+
+# Tabela de Roteamento para as Subnets Públicas
 resource "aws_route_table" "healthcheck_public_rt" {
   vpc_id = aws_vpc.healthcheck_vpc.id
 
@@ -73,4 +90,25 @@ resource "aws_route_table_association" "healthcheck_public_rt_assoc" {
   count          = 2
   subnet_id      = aws_subnet.healthcheck_public_subnet[count.index].id
   route_table_id = aws_route_table.healthcheck_public_rt.id
+}
+
+# Tabela de Roteamento para as Subnets Privadas
+resource "aws_route_table" "healthcheck_private_rt" {
+  vpc_id = aws_vpc.healthcheck_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.healthcheck_nat_gateway.id
+  }
+
+  tags = {
+    Name = "healthcheck-Private-RT"
+  }
+}
+
+# Associação da Tabela de Roteamento com as Subnets Privadas
+resource "aws_route_table_association" "healthcheck_private_rt_assoc" {
+  count          = 2
+  subnet_id      = aws_subnet.healthcheck_private_subnet[count.index].id
+  route_table_id = aws_route_table.healthcheck_private_rt.id
 }
